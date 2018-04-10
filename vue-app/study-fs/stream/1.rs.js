@@ -1,0 +1,47 @@
+/**
+ * Created by Administrator on 2018/3/22.
+ */
+//可读流
+let fs = require('fs');
+//通过创建一个可读流
+//highWaterMark缓冲区大小
+let rs = fs.createReadStream('./1.txt',{
+    flags:'r',//我们要对文件进行何种操作
+    mode:0o666,//权限位
+    encoding:'utf8',
+    start:3,//从索引为3的位置开始读
+    end:8,//读到索引为8结束
+    highWaterMark:3
+});
+rs.setEncoding('utf8');
+rs.on('open',function(){
+    console.log('文件已被打开');
+});
+//监听它的data事件
+//当你一旦开始监听data事件的时候，流就可以读文件
+//的内容并且发射data
+//默认情况下，当你监听data事件后，会不停的读数据，
+//然后触发data事件，触发完data事件后再次读数据
+//希望流有一个暂停和恢复触发的机制
+rs.on('data',function(data){
+    console.log(data);
+    rs.pause();//暂停读取和发射data事件
+    setTimeout(function(){
+        rs.resume();//恢复读取并触发data事件
+    },2000);
+    console.log(data.toString());
+});
+//如果读取文件出错了，会触发error事件
+rs.on('error',function(){
+    console.log('error');
+});
+//end事件，
+rs.on('end',function(){
+    console.log('读完了');
+});
+//关闭
+rs.on('close',function(){
+    console.log('关闭');
+    console.log(__dirname+'\\');//当前执行的文件夹
+    console.log(__filename);//当前执行的文件
+});

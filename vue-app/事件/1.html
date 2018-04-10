@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;padding:0;
+        }
+        #div1{
+            width:200px;
+            height: 200px;
+            margin-top:2000px;
+            background:#61b1ef;
+        }
+    </style>
+</head>
+<body>
+<div id="div1" onclick="test()"></div>
+<script>
+
+    const getURLParameters = url =>
+        (url.match(/([^?=&]+)(=([^&]*))/g) || []).reduce(
+            (a, v) => ((a[v.slice(0, v.indexOf('='))] = v.slice(v.indexOf('=') + 1)), a),
+            {}
+        );
+    console.log(getURLParameters('http://url.com/page?name=Adam&surname=Smith'));// {name: 'Adam', surname: 'Smith'}
+    console.log(getURLParameters('google.com'));//
+</script>
+</body>
+</html>
